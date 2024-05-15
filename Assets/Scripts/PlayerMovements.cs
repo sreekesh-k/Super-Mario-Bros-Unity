@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class PlayerMovements : MonoBehaviour
 {
@@ -8,6 +7,14 @@ public class PlayerMovements : MonoBehaviour
     private float inputAxis;
     private Vector2 velocity;
     private Camera cam;
+    public float maxJumpHeight = 5f;
+    public float maxJumpTime = 1f;
+
+    public float jumpForce => (2f * maxJumpHeight) / (maxJumpTime / 2f);
+    public float gravity => (-2f * maxJumpHeight) / Mathf.Pow((maxJumpTime/2f) ,2); 
+
+    public bool grounded { get; private set; }
+    public bool jumping { get; private set; }
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
@@ -16,6 +23,30 @@ public class PlayerMovements : MonoBehaviour
     private void Update()
     {
         HorizontalMovements();
+        grounded = rigidBody.rayCast(Vector2.down);
+        if(grounded)
+        {
+            groundedMovement();
+        }
+        applyGravity();
+        
+    }
+    private void groundedMovement()
+    {
+        jumping = velocity.y > 0f;
+        velocity.y = Mathf.Max(velocity.y, 0f);
+        if (Input.GetButtonDown("Jump"))
+        {
+            velocity.y = jumpForce;
+            jumping = true;
+        }
+    }
+    private void applyGravity()
+    {
+        bool falling =velocity.y < 0f || !Input.GetButton("Jump");
+        float multiplier = falling? 2f : 1f;
+        velocity.y += gravity * multiplier *  Time.deltaTime;
+        velocity.y = Mathf.Max(velocity.y,gravity/2f);
     }
     private void HorizontalMovements()
     {
