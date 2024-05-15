@@ -1,74 +1,126 @@
 using UnityEngine;
 
-public class PlayerMovements : MonoBehaviour
+[RequireComponent(typeof(Rigidbody2D))]
+public class PlayerMovement : MonoBehaviour
 {
-    private Rigidbody2D rigidBody;
-    public float moveSpeed = 8f;
-    private float inputAxis;
+    private new Camera camera;
+    private new Rigidbody2D rigidbody;
+    private new Collider2D collider;
     private Vector2 velocity;
-    private Camera cam;
+    private bool grounded;
+    private bool jumping;
+
+    [Header("Physics")]
+    public float moveSpeed = 8f;
     public float maxJumpHeight = 5f;
     public float maxJumpTime = 1f;
-    public float jumpForce => (2f * maxJumpHeight) / (maxJumpTime / 2f);
-    public float gravity => (-2f * maxJumpHeight) / Mathf.Pow((maxJumpTime / 2f), 2);
-
-    public bool grounded { get; private set; }
-    public bool jumping { get; private set; }
 
     private void Awake()
     {
-        rigidBody = GetComponent<Rigidbody2D>();
-        cam = Camera.main;
+        Application.targetFrameRate = 60;
 
-        // Freeze rotation to prevent rolling
-        rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        camera = Camera.main;
+        rigidbody = GetComponent<Rigidbody2D>();
+        collider = GetComponent<Collider2D>();
+    }
+
+    private void OnEnable()
+    {
+        collider.enabled = true;
+        velocity = Vector2.zero;
     }
 
     private void Update()
     {
-        HorizontalMovements();
-        grounded = rigidBody.rayCast(Vector2.down);
+        HorizontalMovement();
+
+        grounded = rigidbody.rayCast(Vector2.down);
+
         if (grounded)
         {
             GroundedMovement();
         }
+        else
+        {
+            AirborneMovement();
+        }
+
         ApplyGravity();
+    }
+
+    private void FixedUpdate()
+    {
+        Vector3 leftEdge = camera.ScreenToWorldPoint(Vector3.zero);
+        Vector3 rightEdge = camera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+
+        Vector2 position = rigidbody.position;
+        position += velocity * Time.fixedDeltaTime;
+        position.x = Mathf.Clamp(position.x, leftEdge.x + 0.5f, rightEdge.x - 0.5f);
+
+        rigidbody.MovePosition(position);
+    }
+
+    private void HorizontalMovement()
+    {
+        // accelerate / decelerate
+        float axis = Input.GetAxis("Horizontal");
+        velocity.x = Mathf.MoveTowards(velocity.x, axis * moveSpeed, moveSpeed * Time.deltaTime);
+
+        // check if running into a wall
+        if (rigidbody.rayCast(Vector2.right * velocity.x))
+        {
+            velocity.x = 0f;
+        }
+
+        // flip sprite to face direction
+        if (velocity.x > 0f)
+        {
+            transform.eulerAngles = Vector3.zero;
+        }
+        else if (velocity.x < 0f)
+        {
+            transform.eulerAngles = new Vector3(0f, 180f, 0f);
+        }
     }
 
     private void GroundedMovement()
     {
-        jumping = velocity.y > 0f;
+        // prevent gravity from infinitly building up
         velocity.y = Mathf.Max(velocity.y, 0f);
+        jumping = velocity.y > 0f;
+
+        // perform jump
         if (Input.GetButtonDown("Jump"))
         {
-            velocity.y = jumpForce;
+            // calculate jump velocity
+            float timeToApex = maxJumpTime / 2f;
+            velocity.y = (2f * maxJumpHeight) / timeToApex;
             jumping = true;
+        }
+    }
+
+    private void AirborneMovement()
+    {
+        // check if bonked head
+        if (velocity.y > 0f && rigidbody.rayCast(Vector2.up))
+        {
+            velocity.y = 0f;
         }
     }
 
     private void ApplyGravity()
     {
+        // calculate gravity
+        float timeToApex = maxJumpTime / 2f;
+        float gravity = (-2f * maxJumpHeight) / Mathf.Pow(timeToApex, 2f);
+
+        // check if falling
         bool falling = velocity.y < 0f || !Input.GetButton("Jump");
         float multiplier = falling ? 2f : 1f;
+
+        // apply gravity
         velocity.y += gravity * multiplier * Time.deltaTime;
         velocity.y = Mathf.Max(velocity.y, gravity / 2f);
     }
 
-    private void HorizontalMovements()
-    {
-        inputAxis = Input.GetAxis("Horizontal");
-        velocity.x = Mathf.MoveTowards(velocity.x, moveSpeed * inputAxis, moveSpeed * Time.deltaTime);
-    }
-
-    private void FixedUpdate()
-    {
-        Vector2 position = rigidBody.position;
-        position += velocity * Time.fixedDeltaTime;
-
-        Vector2 leftEdge = cam.ScreenToWorldPoint(Vector2.zero);
-        Vector2 rightEdge = cam.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-        position.x = Mathf.Clamp(position.x, leftEdge.x + .5f, rightEdge.x - .5f);
-
-        rigidBody.MovePosition(position);
-    }
 }
