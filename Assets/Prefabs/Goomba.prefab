@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 2262214753697499689}
   - component: {fileID: 3476804150155684021}
   - component: {fileID: 6658876916697956947}
+  - component: {fileID: 7378193319443320224}
+  - component: {fileID: 7633690693108491549}
   m_Layer: 6
   m_Name: Goomba
   m_TagString: Untagged
@@ -29,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 4953937513092463115}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.5, y: -4.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -123,7 +125,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 4953937513092463115}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 05f74dad61d710a47829319d0dd5d0d2, type: 2}
+  m_Material: {fileID: 6200000, guid: 68f567ecb7c517849825aaac167da0f0, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -158,7 +160,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 4953937513092463115}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 68f567ecb7c517849825aaac167da0f0, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -194,3 +196,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.75, y: 0.5}
   m_EdgeRadius: 0
+--- !u!114 &7378193319443320224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4953937513092463115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3c4232e8bbfdb14a9612c6123ce14d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: 801ca82c54f64a141bc35257087f5234, type: 3}
+  - {fileID: 21300000, guid: 33dcea1297c65854da95d4376f9dfadb, type: 3}
+  rate: 0.1666667
+--- !u!114 &7633690693108491549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4953937513092463115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b691de0c7981d9f43bd394036ee6712c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
+  direction: {x: -1, y: 0}
