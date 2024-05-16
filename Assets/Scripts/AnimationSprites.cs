@@ -3,7 +3,7 @@ using UnityEngine;
 public class AnimationSprites : MonoBehaviour
 {
     public Sprite[] sprites;
-    public float frameRate = 1f/6f;
+    public float rate = 1f / 6f;
 
     private SpriteRenderer spriteRenderer;
     private int frame;
@@ -14,23 +14,23 @@ public class AnimationSprites : MonoBehaviour
     }
     private void OnEnable()
     {
-        InvokeRepeating(nameof(Animate), frameRate, frameRate);   
+        InvokeRepeating(nameof(AnimateSp), rate, rate);   
     }
     private void OnDisable()
     {
         CancelInvoke();
     }
-    private void Animate()
+    private void AnimateSp()
     {
         frame++;
-        if(frame == sprites.Length) {
+        if(frame >= sprites.Length) {
             frame = 0;
         }
-        if(frame>0 &&frame < sprites.Length)
+        if (frame >= 0 && frame < sprites.Length)
         {
             spriteRenderer.sprite = sprites[frame];
-        }
 
+        }
     }
 
 }
