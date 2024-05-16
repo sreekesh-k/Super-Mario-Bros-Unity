@@ -7,8 +7,11 @@ public class PlayerMovement : MonoBehaviour
     private new Rigidbody2D rigidbody;
     private new Collider2D collider;
     private Vector2 velocity;
-    private bool grounded;
-    private bool jumping;
+    private float inputAxis;
+    public bool grounded { get; private set; }
+    public bool jumping { get; private set; }
+    public bool running => Mathf.Abs(velocity.x) > 0.25 || Mathf.Abs(inputAxis)>0.25;
+    public bool sliding => (inputAxis > 0 && velocity.x <0)||(inputAxis < 0 && velocity.x > 0);
 
     [Header("Physics")]
     public float moveSpeed = 8f;
@@ -63,8 +66,8 @@ public class PlayerMovement : MonoBehaviour
     private void HorizontalMovement()
     {
         // accelerate / decelerate
-        float axis = Input.GetAxis("Horizontal");
-        velocity.x = Mathf.MoveTowards(velocity.x, axis * moveSpeed, moveSpeed * Time.deltaTime);
+        inputAxis = Input.GetAxis("Horizontal");
+        velocity.x = Mathf.MoveTowards(velocity.x, inputAxis * moveSpeed, moveSpeed * Time.deltaTime);
 
         // check if running into a wall
         if (rigidbody.rayCast(Vector2.right * velocity.x))
