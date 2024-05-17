@@ -119,7 +119,13 @@ public class PlayerMovement : MonoBehaviour
             velocity.y = 10f;
             jumping = true;
         }
-       
+        if (collision.gameObject.CompareTag("Koopa"))
+        {
+            collision.gameObject.GetComponent<Koopa>().Entershell();
+            velocity.y = 10f;
+            jumping = true;
+        }
+
     }
 
     private void ApplyGravity()

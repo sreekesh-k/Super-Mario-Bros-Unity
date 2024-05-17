@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Goomba
+  - Koopa
   layers:
   - Default
   - TransparentFX
