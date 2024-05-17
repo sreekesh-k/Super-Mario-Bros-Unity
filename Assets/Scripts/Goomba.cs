@@ -3,7 +3,13 @@ using UnityEngine;
 public class Goomba : MonoBehaviour
 {
     public Sprite flat;
-
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<Player>().hit();
+        }
+    }
     public void Flat()
     {
         Collider2D[] colliders = GetComponents<Collider2D>();

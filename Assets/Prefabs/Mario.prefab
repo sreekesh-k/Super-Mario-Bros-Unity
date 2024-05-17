@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 481021467160599378}
   - component: {fileID: 481021467160599379}
   - component: {fileID: 3673237030426724268}
+  - component: {fileID: 4192554513884546727}
+  - component: {fileID: 4850171296337584671}
   m_Layer: 3
   m_Name: Mario
   m_TagString: Player
@@ -113,6 +115,34 @@ MonoBehaviour:
   moveSpeed: 8
   maxJumpHeight: 5
   maxJumpTime: 1
+--- !u!114 &4192554513884546727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481021467160599391}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae5487962f764c84fb23ad490fa526cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deadSprite: {fileID: 21300000, guid: e9345d9e9a21949478e4292b904591cd, type: 3}
+  spriteRenderer: {fileID: 5182399649277129701}
+--- !u!114 &4850171296337584671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481021467160599391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba857367b8759734989de50c45d9046f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smallRenderer: {fileID: 1605869967210077402}
+  bigRenderer: {fileID: 589828642796668357}
 --- !u!1 &6296739961992616506
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,6 +154,7 @@ GameObject:
   - component: {fileID: 989865982025975741}
   - component: {fileID: 5182399649277129701}
   - component: {fileID: 1605869967210077402}
+  - component: {fileID: 3004003291231171397}
   m_Layer: 3
   m_Name: Small
   m_TagString: Untagged
@@ -213,8 +244,25 @@ MonoBehaviour:
   idle: {fileID: 21300000, guid: 316669850fc22b947a5ffd08a201559e, type: 3}
   jump: {fileID: 21300000, guid: fe0645aacf16c3c4cab67a8ac2e3bc3a, type: 3}
   slide: {fileID: 21300000, guid: 98014fa15d2f2f84495aa2512e65cfba, type: 3}
-  death: {fileID: 21300000, guid: e9345d9e9a21949478e4292b904591cd, type: 3}
-  run: {fileID: 0}
+  run: {fileID: 3004003291231171397}
+--- !u!114 &3004003291231171397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6296739961992616506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3c4232e8bbfdb14a9612c6123ce14d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: f8683836d7ce2e84ca96fcced8e51144, type: 3}
+  - {fileID: 21300000, guid: 35672984aa1fd894da6716da8832d93a, type: 3}
+  - {fileID: 21300000, guid: d819e2f75eeea5242b6de17737bb2268, type: 3}
+  - {fileID: 21300000, guid: 35672984aa1fd894da6716da8832d93a, type: 3}
+  rate: 0.1666667
 --- !u!1 &6815736498561729688
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,6 +274,7 @@ GameObject:
   - component: {fileID: 550041451545842682}
   - component: {fileID: 587665640826582776}
   - component: {fileID: 589828642796668357}
+  - component: {fileID: 838937739408760582}
   m_Layer: 3
   m_Name: Big
   m_TagString: Untagged
@@ -255,7 +304,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6815736498561729688}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -307,7 +356,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6815736498561729688}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 908c10056c13d464885e8e142adf0434, type: 3}
   m_Name: 
@@ -315,5 +364,22 @@ MonoBehaviour:
   idle: {fileID: 21300000, guid: 19d5171dbf2b54445b30039a7801f06f, type: 3}
   jump: {fileID: 21300000, guid: c70c20c4fbc24664c80be3430ff101e1, type: 3}
   slide: {fileID: 21300000, guid: a3aa9880011d27e489a3d3ca69ed8a36, type: 3}
-  death: {fileID: 0}
-  run: {fileID: 0}
+  run: {fileID: 838937739408760582}
+--- !u!114 &838937739408760582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6815736498561729688}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3c4232e8bbfdb14a9612c6123ce14d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: b40c879c39eb486409903571130f3547, type: 3}
+  - {fileID: 21300000, guid: 676af2a28d427f642a0b00da45ad5335, type: 3}
+  - {fileID: 21300000, guid: 688ef04ffcc56604c97d2388edbbe369, type: 3}
+  - {fileID: 21300000, guid: 676af2a28d427f642a0b00da45ad5335, type: 3}
+  rate: 0.1666667

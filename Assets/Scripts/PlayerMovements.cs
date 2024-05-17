@@ -110,6 +110,7 @@ public class PlayerMovement : MonoBehaviour
             velocity.y = 0f;
         }
     }
+   
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Goomba"))
