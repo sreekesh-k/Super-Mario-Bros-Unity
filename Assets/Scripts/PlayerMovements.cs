@@ -110,6 +110,16 @@ public class PlayerMovement : MonoBehaviour
             velocity.y = 0f;
         }
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Goomba"))
+        {
+            collision.gameObject.GetComponent<Goomba>().Flat();
+            velocity.y = 10f;
+            jumping = true;
+        }
+       
+    }
 
     private void ApplyGravity()
     {

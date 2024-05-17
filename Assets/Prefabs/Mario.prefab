@@ -213,6 +213,7 @@ MonoBehaviour:
   idle: {fileID: 21300000, guid: 316669850fc22b947a5ffd08a201559e, type: 3}
   jump: {fileID: 21300000, guid: fe0645aacf16c3c4cab67a8ac2e3bc3a, type: 3}
   slide: {fileID: 21300000, guid: 98014fa15d2f2f84495aa2512e65cfba, type: 3}
+  death: {fileID: 21300000, guid: e9345d9e9a21949478e4292b904591cd, type: 3}
   run: {fileID: 0}
 --- !u!1 &6815736498561729688
 GameObject:
@@ -314,4 +315,5 @@ MonoBehaviour:
   idle: {fileID: 21300000, guid: 19d5171dbf2b54445b30039a7801f06f, type: 3}
   jump: {fileID: 21300000, guid: c70c20c4fbc24664c80be3430ff101e1, type: 3}
   slide: {fileID: 21300000, guid: a3aa9880011d27e489a3d3ca69ed8a36, type: 3}
+  death: {fileID: 0}
   run: {fileID: 0}
