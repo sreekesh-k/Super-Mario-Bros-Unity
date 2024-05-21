@@ -20,7 +20,7 @@ public class Goomba : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Shell")) {
-            Destroy(gameObject);
+            Hit();
         }
     }
     public void Flat()
@@ -37,5 +37,11 @@ public class Goomba : MonoBehaviour
         GetComponent<SpriteRenderer>().sprite = flat;
         Destroy(gameObject,0.5f);
     }
-    
+    private void Hit()
+    {
+
+        GetComponent<AnimationSprites>().enabled = false;
+        GetComponent<DeathAnimation>().enabled = true;
+        Destroy(gameObject, 3f);
+    }
 }

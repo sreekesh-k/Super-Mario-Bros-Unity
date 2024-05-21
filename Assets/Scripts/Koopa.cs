@@ -19,7 +19,6 @@ public class Koopa : MonoBehaviour
             }
         }
     }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (shelled && other.CompareTag("Player"))
@@ -33,6 +32,10 @@ public class Koopa : MonoBehaviour
             {
                 other.gameObject.GetComponent<Player>().hit();
             }
+        }
+        else if (!shelled && other.gameObject.layer == LayerMask.NameToLayer("Shell"))
+        {
+            Hit();
         }
     }
     private void Entershell()
@@ -65,5 +68,11 @@ public class Koopa : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    private void Hit()
+    {
 
+        GetComponent<AnimationSprites>().enabled = false;
+        GetComponent<DeathAnimation>().enabled = true;
+        Destroy(gameObject, 3f);
+    }
 }
