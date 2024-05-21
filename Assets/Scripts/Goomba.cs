@@ -16,6 +16,13 @@ public class Goomba : MonoBehaviour
             
         }
     }
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Shell")) {
+            Destroy(gameObject);
+        }
+    }
     public void Flat()
     {
         // Collider2D[] colliders = GetComponents<Collider2D>();

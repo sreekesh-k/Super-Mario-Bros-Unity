@@ -3,24 +3,66 @@ using UnityEngine;
 public class Koopa : MonoBehaviour
 {
     public Sprite EnterShell;
-    public bool Shelled;
-    public bool ShellMoving;
+    public float shellSpeed = 12f;
+    private bool shelled;
+    private bool shellMoving;
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!Shelled && collision.gameObject.CompareTag("Player"))
+        if (!shelled && collision.gameObject.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<Player>().hit();
+            if (collision.transform.DotTest(transform, Vector2.down)) {
+                Entershell();
+            }  
+            else{
+                collision.gameObject.GetComponent<Player>().hit();
+            }
         }
     }
-    public void Entershell()
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!Shelled)
+        if (shelled && other.CompareTag("Player"))
         {
-            Shelled = true;
-            GetComponent<BoxCollider2D>().enabled = false;
-            GetComponent<EntityMovement>().enabled = false;
-            GetComponent<AnimationSprites>().enabled = false;
-            GetComponent<SpriteRenderer>().sprite = EnterShell;
+            if (!shellMoving)
+            {
+                Vector2 direction = new Vector2(transform.position.x - other.transform.position.x, 0f);
+                HitShell(direction);
+            }
+            else
+            {
+                other.gameObject.GetComponent<Player>().hit();
+            }
+        }
+    }
+    private void Entershell()
+    {
+        shelled = true;
+
+        Destroy(GetComponent<AnimationSprites>());
+        GetComponent<EntityMovement>().enabled = false;
+        GetComponent<SpriteRenderer>().sprite = EnterShell;
+
+    }
+    
+    private void HitShell(Vector2 direction)
+    {
+        shellMoving = true;
+
+        GetComponent<Rigidbody2D>().isKinematic = false;
+
+        EntityMovement movement = GetComponent<EntityMovement>();
+        movement.direction = direction.normalized;
+        movement.speed = shellSpeed;
+        movement.enabled = true;
+
+        gameObject.layer = LayerMask.NameToLayer("Shell");
+    }
+
+    private void OnBecameInvisible()
+    {
+        if (shelled) {
+            Destroy(gameObject);
         }
     }
 
