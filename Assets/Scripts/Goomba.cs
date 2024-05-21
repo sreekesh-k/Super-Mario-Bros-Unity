@@ -7,16 +7,24 @@ public class Goomba : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<Player>().hit();
+            if(collision.transform.DotTest(transform,Vector2.down)){
+                Flat();
+            }
+            else{
+                collision.gameObject.GetComponent<Player>().hit();
+            }
+            
         }
     }
     public void Flat()
     {
-        Collider2D[] colliders = GetComponents<Collider2D>();
-        foreach (Collider2D collider in colliders)
-        {
-            collider.enabled = false;
-        }
+        // Collider2D[] colliders = GetComponents<Collider2D>();
+        // foreach (Collider2D collider in colliders)
+        // {
+        //     collider.enabled = false;
+        // }
+        GetComponent<Rigidbody2D>().isKinematic = true;
+        GetComponent<Collider2D>().enabled = false;
         GetComponent<EntityMovement>().enabled = false;
         GetComponent<AnimationSprites>().enabled = false;
         GetComponent<SpriteRenderer>().sprite = flat;

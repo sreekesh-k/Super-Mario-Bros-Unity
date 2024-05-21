@@ -111,22 +111,19 @@ public class PlayerMovement : MonoBehaviour
         }
     }
    
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Goomba"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            collision.gameObject.GetComponent<Goomba>().Flat();
-            velocity.y = 10f;
-            jumping = true;
+            // bounce off enemy head
+            if (transform.DotTest(collision.transform, Vector2.down))
+            {
+                velocity.y = 10f;
+                jumping = true;
+            }
         }
-        if (collision.gameObject.CompareTag("Koopa"))
-        {
-            collision.gameObject.GetComponent<Koopa>().Entershell();
-            velocity.y = 10f;
-            jumping = true;
-        }
-
     }
+  
 
     private void ApplyGravity()
     {

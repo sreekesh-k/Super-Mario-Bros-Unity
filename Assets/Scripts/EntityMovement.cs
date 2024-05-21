@@ -38,7 +38,7 @@ public class EntityMovement : MonoBehaviour
         }
         if (rigidBody.rayCast(Vector2.down))
         {
-            velocity.y = Mathf.Max(velocity.y, 0);  
+            velocity.y = Mathf.Max(velocity.y, 0f);  
         }
     }
 
