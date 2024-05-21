@@ -1,39 +1,114 @@
+using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     public PlayerSpriteRender smallRenderer;
     public PlayerSpriteRender bigRenderer;
-    private DeathAnimation dan;
+    private PlayerSpriteRender activeRenderer;
+    public CapsuleCollider2D capsuleCollider { get; private set; }
+    public DeathAnimation deathAnimation { get; private set; }
     public bool big => bigRenderer.enabled;
-    public bool small => smallRenderer.enabled;
-    public bool death => dan.enabled;
-    public void Awake()
+    public bool dead => deathAnimation.enabled;
+    public bool starpower { get; private set; }
+    private void Awake()
     {
-        dan = GetComponent<DeathAnimation>();
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
+        deathAnimation = GetComponent<DeathAnimation>();
+        activeRenderer = smallRenderer;
     }
     public void hit()
     {
-        if (big)
+        if (!dead && !starpower)
         {
-
-            Shrink();
+            if (big)
+            {
+                Shrink();
+            }
+            else
+            {
+                Death();
+            }
         }
+    }
+    public void Grow()
+    {
+        smallRenderer.enabled = false;
+        bigRenderer.enabled = true;
+        activeRenderer = bigRenderer;
 
-        else
-        {
-            Death();
-        }
+        capsuleCollider.size = new Vector2(1f, 2f);
+        capsuleCollider.offset = new Vector2(0f, 0.5f);
+
+        StartCoroutine(ScaleAnimation());
     }
     private void Shrink()
     {
+        smallRenderer.enabled = true;
+        bigRenderer.enabled = false;
+        activeRenderer = smallRenderer;
+        capsuleCollider.size = new Vector2(1f, 1f);
+        capsuleCollider.offset = new Vector2(0f, 0f);
+
+        StartCoroutine(ScaleAnimation());
 
     }
+    private IEnumerator ScaleAnimation()
+    {
+        float elapsed = 0f;
+        float duration = 0.5f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+
+            if (Time.frameCount % 4 == 0)
+            {
+                smallRenderer.enabled = !smallRenderer.enabled;
+                bigRenderer.enabled = !smallRenderer.enabled;
+            }
+
+            yield return null;
+        }
+
+        smallRenderer.enabled = false;
+        bigRenderer.enabled = false;
+        activeRenderer.enabled = true;
+    }
+
     private void Death()
     {
-        smallRenderer.enabled = false;  
+        smallRenderer.enabled = false;
         bigRenderer.enabled = false;
-        dan.enabled = true;
+        deathAnimation.enabled = true;
+
         GameManager.instance.ResetLevel(3f);
+    }
+    public void Starpower()
+    {
+        StartCoroutine(StarpowerAnimation());
+    }
+
+    private IEnumerator StarpowerAnimation()
+    {
+        starpower = true;
+
+        float elapsed = 0f;
+        float duration = 10f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+
+            if (Time.frameCount % 4 == 0)
+            {
+                activeRenderer.spriteRenderer.color = Random.ColorHSV(0f, 1f, 1f, 1f, 1f, 1f);
+            }
+
+            yield return null;
+        }
+
+        activeRenderer.spriteRenderer.color = Color.white;
+        starpower = false;
     }
 }

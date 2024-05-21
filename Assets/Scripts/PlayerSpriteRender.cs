@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerSpriteRender : MonoBehaviour
 {
 
-    private SpriteRenderer spriteRenderer;
+    public SpriteRenderer spriteRenderer;
     private PlayerMovement movement;
     public Sprite idle;
     public Sprite jump;
