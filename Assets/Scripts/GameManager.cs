@@ -65,6 +65,21 @@ public class GameManager : MonoBehaviour
             GameOver();
         }
     }
+    public void AddCoin()
+    {
+        coins++;
+
+        if (coins == 100)
+        {
+            coins = 0;
+            AddLife();
+        }
+    }
+
+    public void AddLife()
+    {
+        lives++;
+    }
     private void GameOver()
     {
         NewGame();
