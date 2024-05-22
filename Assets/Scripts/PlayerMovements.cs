@@ -29,8 +29,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnEnable()
     {
+        rigidbody.isKinematic = false;
         collider.enabled = true;
         velocity = Vector2.zero;
+        jumping = false;
     }
     public void OnDisable()
     {
